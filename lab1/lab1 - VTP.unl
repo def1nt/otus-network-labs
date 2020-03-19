@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lab name="lab1 - VTP" version="1" scripttimeout="300" lock="0" author="def1nt">
+  <topology>
+    <nodes>
+      <node id="1" name="S1" type="iol" template="iol" image="i86bi_linux_l2-ipbasek9-ms.high_iron_aug9_2017b.bin" ethernet="1" nvram="1024" ram="1024" serial="0" console="" delay="0" icon="Router.png" config="0" left="393" top="414">
+        <interface id="16" name="e0/1" type="ethernet" network_id="2"/>
+        <interface id="32" name="e0/2" type="ethernet" network_id="3"/>
+        <interface id="48" name="e0/3" type="ethernet" network_id="6"/>
+      </node>
+      <node id="2" name="S2" type="iol" template="iol" image="i86bi_linux_l2-ipbasek9-ms.high_iron_aug9_2017b.bin" ethernet="1" nvram="1024" ram="1024" serial="0" console="" delay="0" icon="Router.png" config="0" left="615" top="240">
+        <interface id="0" name="e0/0" type="ethernet" network_id="1"/>
+        <interface id="32" name="e0/2" type="ethernet" network_id="3"/>
+        <interface id="48" name="e0/3" type="ethernet" network_id="4"/>
+      </node>
+      <node id="3" name="S3" type="iol" template="iol" image="i86bi_linux_l2-ipbasek9-ms.high_iron_aug9_2017b.bin" ethernet="1" nvram="1024" ram="1024" serial="0" console="" delay="0" icon="Router.png" config="0" left="429" top="147">
+        <interface id="0" name="e0/0" type="ethernet" network_id="1"/>
+        <interface id="16" name="e0/1" type="ethernet" network_id="2"/>
+        <interface id="48" name="e0/3" type="ethernet" network_id="5"/>
+      </node>
+      <node id="4" name="PC-C" type="vpcs" template="vpcs" image="" ethernet="1" delay="0" icon="Desktop.png" config="0" left="195" top="60">
+        <interface id="0" name="eth0" type="ethernet" network_id="5"/>
+      </node>
+      <node id="5" name="PC-B" type="vpcs" template="vpcs" image="" ethernet="1" delay="0" icon="Desktop.png" config="0" left="843" top="216">
+        <interface id="0" name="eth0" type="ethernet" network_id="4"/>
+      </node>
+      <node id="6" name="PC-A" type="vpcs" template="vpcs" image="" ethernet="1" delay="0" icon="Desktop.png" config="0" left="291" top="558">
+        <interface id="0" name="eth0" type="ethernet" network_id="6"/>
+      </node>
+    </nodes>
+    <networks>
+      <network id="1" type="bridge" name="Net-R3iface_0" left="489" top="187" visibility="0"/>
+      <network id="2" type="bridge" name="Net-R3iface_16" left="489" top="187" visibility="0"/>
+      <network id="3" type="bridge" name="Net-R2iface_32" left="675" top="280" visibility="0"/>
+      <network id="4" type="bridge" name="Net-R2iface_48" left="675" top="280" visibility="0"/>
+      <network id="5" type="bridge" name="Net-R3iface_48" left="489" top="187" visibility="0"/>
+      <network id="6" type="bridge" name="Net-R1iface_48" left="453" top="454" visibility="0"/>
+    </networks>
+  </topology>
+</lab>
