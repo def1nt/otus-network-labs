@@ -1,0 +1,115 @@
+Current configuration : 1502 bytes
+!
+! Last configuration change at 17:56:39 EET Mon Mar 30 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$n4FB$Gad6FnVWxbxFmYrz86qV11
+!
+no aaa new-model
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+no ipv6 cef
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+ip cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 192.168.1.1 255.255.255.0
+!
+ip forward-protocol nd
+!
+no ip http server
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner login ^C
+I have no idea what I'm doing.
+Hello on my router S1, tho.
+Have a nice day.^C
+banner motd ^C
+This is a MOTD banner
+That makes almost no sense
+Forward and back
+And then
+Forward and back
+And then
+Forward and back
+And then
+Ever one foot forward.^C
+!
+line con 0
+ password cisco
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password cisco
+ logging synchronous
+ login
+!
+!
+!
+end
