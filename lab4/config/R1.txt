@@ -1,0 +1,123 @@
+!
+! Last configuration change at 08:37:23 EET Fri Aug 7 2020
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Ethernet0/0
+ bandwidth 1000
+ ip address 192.168.12.1 255.255.255.252
+!
+interface Ethernet0/1
+ bandwidth 1000
+ ip address 192.168.13.1 255.255.255.252
+ ip ospf cost 322
+!
+interface Ethernet0/2
+ ip address 192.168.1.1 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 11.11.11.11
+ passive-interface Ethernet0/2
+ network 192.168.1.1 0.0.0.0 area 0
+ network 192.168.12.1 0.0.0.0 area 0
+ network 192.168.13.1 0.0.0.0 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C
+Woke up this morning, and it seemed to me
+That every night turns out to be
+A little bit more like Bukowski^C
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ logging synchronous
+ login
+ transport input none
+!
+!
+end
