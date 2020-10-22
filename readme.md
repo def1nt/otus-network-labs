@@ -1,5 +1,7 @@
 ## Лабораторные
 
+## СОДЕРЖАНИЕ НЕ ВАЛИДНО
+
 1. [VLAN и VTP](https://github.com/def1nt/otus-network-labs/tree/master/lab1)
 
 2. [STP](https://github.com/def1nt/otus-network-labs/tree/master/lab2)
