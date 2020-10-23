@@ -1,0 +1,87 @@
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+!
+interface Ethernet0/1
+!
+interface Ethernet0/2
+!
+interface Ethernet0/3
+!
+interface Vlan1
+ ip address 192.168.1.66 255.255.255.224
+!
+ip default-gateway 192.168.1.65
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd ^C
+Through the woods we ran
+(Deep into the mountain sound)^C
+!
+line con 0
+ password 7 12140A021C1F0D0D24
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password 7 141A1D1E02102B222A
+ logging synchronous
+ login
+!
+!
+end

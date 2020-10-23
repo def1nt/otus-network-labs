@@ -184,4 +184,45 @@ S1(config-if)#sw trunk all vlan 100,200,1000
 
 
 
+```
+R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
+R1(config)#ip dhcp excluded-address 192.168.1.97 192.168.1.101
+```
 
+```
+R1(config)#ip dhcp pool R1_Clients
+R1(dhcp-config)#network 192.168.1.0 255.255.255.192
+R1(dhcp-config)#default-router 192.168.1.1
+R1(dhcp-config)#domain-name ccna-lab.com
+R1(dhcp-config)#lease 2 12 30
+```
+```
+R1(config)#ip dhcp pool R2_Clients
+R1(dhcp-config)#network 192.168.1.96 255.255.255.240
+R1(dhcp-config)#default-router 192.168.1.97
+R1(dhcp-config)#domain-name ccna-lab.com
+R1(dhcp-config)#lease 2 12 30
+```
+```
+R1#sh ip dhcp bin
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+192.168.1.6         0100.5079.6668.01       Oct 26 2020 10:50 AM    Automatic
+```
+```
+R2(config)#int e0/1
+R2(config-if)#ip helper-address 10.0.0.1
+```
+```
+R1#sh ip dhcp bin
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+192.168.1.6         0100.5079.6668.01       Oct 26 2020 10:50 AM    Automatic
+192.168.1.102       0100.5079.6668.02       Oct 26 2020 11:04 AM    Automatic
+```
+
+![Здесь должна быть картина с пингами](Lab3-DHCP-Pingtest.png)
