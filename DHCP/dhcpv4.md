@@ -96,6 +96,7 @@ R1(config-subif)#encapsulation dot1q 100
 R1(config-subif)#ip address 192.168.1.1 255.255.255.192
 R1(config-subif)#description Clients 100 network
 ```
+Аналогично настроим подинтерфейсы для остальных вланов в транке.
 ### Настроим E0/1 на R2, затем E0/0 и статические маршруты для обоих роутеров
 ```
 R2(config)#int e0/1
@@ -115,7 +116,7 @@ Gateway of last resort is 10.0.0.2 to network 0.0.0.0
 
 S*    0.0.0.0/0 [1/0] via 10.0.0.2
 ```
-
+На месте
 ```
 R1(config)#do ping 10.0.0.2
 Type escape sequence to abort.
@@ -123,6 +124,7 @@ Sending 5, 100-byte ICMP Echos to 10.0.0.2, timeout is 2 seconds:
 !!!!!
 Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 ```
+Связь есть.
 
 ### Настроим базовые параметры коммутаторов
 
@@ -151,6 +153,7 @@ Set the clock on the switch to today’s time and date.
 S1#clock set 12:30:00 15 oct 2020
 ```
 
+Настроим VLAN на S1. На S2 ничего не нужно.
 ```
 S1(config)#vlan 100
 S1(config-vlan)#name Clients
@@ -165,7 +168,7 @@ S1(config-if)#ip addr 192.168.1.2 255.255.255.192
 S1(config)#ip default-gateway 10.0.0.1
 ```
 
-
+Настроим интерфейсы для соответствующих VLAN.
 ```
 S1(config)#int e0/0
 S1(config-if)#sw acc vlan 100
@@ -174,7 +177,7 @@ S1(config-if)#int range e0/2-3
 S1(config-if-range)#sw mode acc
 S1(config-if-range)#sw acc vlan 999
 ```
-
+И транк.
 ```
 S1(config)#int e0/1
 S1(config-if)#sw trunk enc dot1q
@@ -182,13 +185,13 @@ S1(config-if)#sw mode trunk
 S1(config-if)#sw trunk all vlan 100,200,1000
 ```
 
-
-
+## Настройка сервера DHCP на R1 
+Сперва добавим в исключения по пять адресов согласно заданию.
 ```
 R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
 R1(config)#ip dhcp excluded-address 192.168.1.97 192.168.1.101
 ```
-
+Настроим два пула.
 ```
 R1(config)#ip dhcp pool R1_Clients
 R1(dhcp-config)#network 192.168.1.0 255.255.255.192
@@ -203,6 +206,7 @@ R1(dhcp-config)#default-router 192.168.1.97
 R1(dhcp-config)#domain-name ccna-lab.com
 R1(dhcp-config)#lease 2 12 30
 ```
+Запросим адрес с PC1 и проверим аренду.
 ```
 R1#sh ip dhcp bin
 Bindings from all pools not associated with VRF:
@@ -211,10 +215,12 @@ IP address          Client-ID/              Lease expiration        Type
                     User name
 192.168.1.6         0100.5079.6668.01       Oct 26 2020 10:50 AM    Automatic
 ```
+Теперь настроем ретрансляцию на R2. Укажем в куда пересылать бродкасты с запросом.
 ```
 R2(config)#int e0/1
 R2(config-if)#ip helper-address 10.0.0.1
 ```
+Запросим адрес с PC2 и проверим аренду.
 ```
 R1#sh ip dhcp bin
 Bindings from all pools not associated with VRF:
@@ -224,5 +230,6 @@ IP address          Client-ID/              Lease expiration        Type
 192.168.1.6         0100.5079.6668.01       Oct 26 2020 10:50 AM    Automatic
 192.168.1.102       0100.5079.6668.02       Oct 26 2020 11:04 AM    Automatic
 ```
+Сеть готова.
 
 ![Здесь должна быть картина с пингами](Lab3-DHCP-Pingtest.png)
