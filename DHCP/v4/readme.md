@@ -15,14 +15,14 @@
 Устройство | Интерфейс | IP-адрес | Маска подсети | Шлюз
 -|-|-|-|-
 R1 | E0/0	    | 10.0.0.1|	255.255.255.252 |	N/A
-- | E0/1	    | N/A	    |    N/A |	N/A
-- | E0/1.100	|     |	  |	N/A
-- | E0/1.200	|     |	  |	N/A
-- | E0/1.1000| N/A |	N/A	| N/A
+-| E0/1	    | N/A	    |    N/A |	N/A
+-| E0/1.100	|     |	  |	N/A
+-| E0/1.200	|     |	  |	N/A
+-| E0/1.1000| N/A |	N/A	| N/A
 R2 | E0/0	    | 10.0.0.2|	255.255.255.252 |	N/A
-- | E0/1	    |     |	  |	N/A
-S1 | VLAN 200	|  	  |    |	 
-S2 | VLAN 1	    |     |	  |	 
+-| E0/1	    |     |	  |	N/A
+S1 | VLAN 200	|  	  |    |
+S2 | VLAN 1	    |     |	  |
 PC-A |	NIC	    | DHCP    |	DHCP |	DHCP
 PC-B |	NIC	    | DHCP    |	DHCP |	DHCP
 
@@ -31,7 +31,7 @@ VLAN |	Name |	Interface Assigned
 -|-|-
 1 |	N/A	| S2: E0/0
 100 |	Clients |	S1: E0/0
-200 |	Management| 	S1: VLAN 200 
+200 |	Management| 	S1: VLAN 200
 999 |	Parking_Lot	| S1: F0/1-4, F0/7-24, G0/1-2
 1000 |	Native	| N/A
 
@@ -185,7 +185,7 @@ S1(config-if)#sw mode trunk
 S1(config-if)#sw trunk all vlan 100,200,1000
 ```
 
-## Настройка сервера DHCP на R1 
+## Настройка сервера DHCP на R1
 Сперва добавим в исключения по пять адресов согласно заданию.
 ```
 R1(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.5
