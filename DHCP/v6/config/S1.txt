@@ -1,14 +1,9 @@
-Current configuration : 988 bytes
-!
-! Last configuration change at 10:16:29 EET Thu Mar 19 2020
-!
-version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+service password-encryption
 service compress-config
 !
-hostname S3
+hostname S1
 !
 boot-start-marker
 boot-end-marker
@@ -22,21 +17,19 @@ clock timezone EET 2 0
 !
 !
 !
+!
+!
+!
+no ip domain-lookup
+ip cef
 no ipv6 cef
 !
 !
 !
-!
-!
-!
-!
-ip cef
-!
-!
-!
-spanning-tree mode pvst
+spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 !
+vlan internal allocation policy ascending
 !
 !
 !
@@ -52,25 +45,18 @@ spanning-tree extend system-id
 !
 !
 interface Ethernet0/0
- switchport trunk encapsulation dot1q
- switchport mode trunk
 !
 interface Ethernet0/1
 !
 interface Ethernet0/2
 !
 interface Ethernet0/3
- switchport access vlan 10
- switchport mode access
-!
-interface Vlan99
- ip address 192.168.99.3 255.255.255.0
+ shutdown
 !
 ip forward-protocol nd
 !
 no ip http server
-ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+no ip http secure-server
 !
 !
 !
@@ -79,13 +65,22 @@ ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
 !
 control-plane
 !
+banner motd ^C
+Ib
+ll be the calm
+I will be quiet
+Stripped to the bone
+I wait^C
 !
 line con 0
+ password 7 00101B0911480A080B
  logging synchronous
+ login
 line aux 0
 line vty 0 4
+ password 7 051F0E00345F4F071D
+ logging synchronous
  login
-!
 !
 !
 end

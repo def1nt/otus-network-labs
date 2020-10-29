@@ -1,8 +1,6 @@
-!
-version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+service password-encryption
 !
 hostname R2
 !
@@ -21,6 +19,10 @@ mmi snmp-timeout 180
 !
 !
 !
+!
+!
+!
+!
 
 
 !
@@ -29,7 +31,8 @@ mmi snmp-timeout 180
 !
 no ip domain lookup
 ip cef
-no ipv6 cef
+ipv6 unicast-routing
+ipv6 cef
 !
 multilink bundle-name authenticated
 !
@@ -56,31 +59,34 @@ redundancy
 !
 !
 !
+!
 interface Ethernet0/0
- ip address 10.1.1.2 255.255.255.252
+ no ip address
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:DB8:ACAD:2::2/64
 !
 interface Ethernet0/1
- ip address 10.2.2.2 255.255.255.252
+ no ip address
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:3::1/64
+ ipv6 nd managed-config-flag
+ ipv6 dhcp relay destination 2001:DB8:ACAD:2::1 Ethernet0/0
 !
 interface Ethernet0/2
- ip address 209.165.200.225 255.255.255.224
+ no ip address
+ shutdown
 !
 interface Ethernet0/3
  no ip address
  shutdown
-!
-router rip
- version 2
- network 10.0.0.0
- default-information originate
 !
 ip forward-protocol nd
 !
 !
 no ip http server
 no ip http secure-server
-ip route 0.0.0.0 0.0.0.0 Ethernet0/2
 !
+ipv6 route ::/0 Ethernet0/0 FE80::1
 !
 !
 !
@@ -91,18 +97,24 @@ control-plane
 !
 !
 !
+!
 banner motd ^C
-And as the world comes to an end
-Ib
-ll be here to hold your hand^C
+I canb
+t control
+Withering wonders
+Flowers that lose
+Their shape^C
 !
 line con 0
- logging synchronous
-line aux 0
-line vty 0 4
+ password 7 105A01161004130508
  logging synchronous
  login
- transport input all
+line aux 0
+line vty 0 4
+ password 7 095846060C16161C0F
+ logging synchronous
+ login
+ transport input none
 !
 !
 end

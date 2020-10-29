@@ -1,12 +1,8 @@
-!
-! Last configuration change at 08:37:23 EET Fri Aug 7 2020
-!
-version 15.4
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname R1
+hostname tipa_pc2
 !
 boot-start-marker
 boot-end-marker
@@ -33,7 +29,7 @@ mmi snmp-timeout 180
 !
 !
 !
-no ip domain lookup
+ip domain list Stateful.com
 ip cef
 no ipv6 cef
 !
@@ -63,31 +59,22 @@ redundancy
 !
 !
 !
-interface Loopback0
- ip address 1.1.1.1 255.255.255.255
-!
 interface Ethernet0/0
- bandwidth 1000
- ip address 192.168.12.1 255.255.255.252
+ no ip address
+ ipv6 address dhcp
+ ipv6 enable
 !
 interface Ethernet0/1
- bandwidth 1000
- ip address 192.168.13.1 255.255.255.252
- ip ospf cost 322
+ no ip address
+ shutdown
 !
 interface Ethernet0/2
- ip address 192.168.1.1 255.255.255.0
+ no ip address
+ shutdown
 !
 interface Ethernet0/3
  no ip address
  shutdown
-!
-router ospf 1
- router-id 11.11.11.11
- passive-interface Ethernet0/2
- network 192.168.1.1 0.0.0.0 area 0
- network 192.168.12.1 0.0.0.0 area 0
- network 192.168.13.1 0.0.0.0 area 0
 !
 ip forward-protocol nd
 !
@@ -106,16 +93,11 @@ control-plane
 !
 !
 !
-banner motd ^C
-Woke up this morning, and it seemed to me
-That every night turns out to be
-A little bit more like Bukowski^C
 !
 line con 0
  logging synchronous
 line aux 0
 line vty 0 4
- logging synchronous
  login
  transport input none
 !

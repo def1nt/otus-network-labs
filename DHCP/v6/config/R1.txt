@@ -1,11 +1,8 @@
-!
-! Last configuration change at 10:04:55 EET Thu Aug 6 2020
-version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+service password-encryption
 !
-hostname R3
+hostname R1
 !
 boot-start-marker
 boot-end-marker
@@ -22,6 +19,10 @@ mmi snmp-timeout 180
 !
 !
 !
+!
+!
+!
+!
 
 
 !
@@ -30,7 +31,17 @@ mmi snmp-timeout 180
 !
 no ip domain lookup
 ip cef
-no ipv6 cef
+ipv6 unicast-routing
+ipv6 cef
+ipv6 dhcp pool Stateless
+ dns-server 2001:DB8:ACAD::254
+ domain-name Stateless.com
+!
+ipv6 dhcp pool Stateful
+ address prefix 2001:DB8:ACAD:3:AAA::/80
+ dns-server 2001:DB8:ACAD::254
+ domain-name Stateful.com
+!
 !
 multilink bundle-name authenticated
 !
@@ -57,14 +68,19 @@ redundancy
 !
 !
 !
+!
 interface Ethernet0/0
- ip address 10.2.2.1 255.255.255.252
+ no ip address
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:2::1/64
+ ipv6 dhcp server Stateful
 !
 interface Ethernet0/1
- ip address 192.168.1.3 255.255.255.0
- standby version 2
- standby 1 ip 192.168.1.254
- standby 1 preempt
+ no ip address
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:1::1/64
+ ipv6 nd other-config-flag
+ ipv6 dhcp server Stateless
 !
 interface Ethernet0/2
  no ip address
@@ -74,17 +90,13 @@ interface Ethernet0/3
  no ip address
  shutdown
 !
-router rip
- version 2
- network 10.0.0.0
- network 192.168.1.0
-!
 ip forward-protocol nd
 !
 !
 no ip http server
 no ip http secure-server
 !
+ipv6 route ::/0 Ethernet0/0 FE80::2
 !
 !
 !
@@ -95,17 +107,24 @@ control-plane
 !
 !
 !
+!
 banner motd ^C
-And in the sea that's painted black
-Creatures lurk below the deck^C
+I canb
+t control
+Withering wonders
+Flowers that lose
+Their shape^C
 !
 line con 0
- logging synchronous
-line aux 0
-line vty 0 4
+ password 7 083544411C0A041916
  logging synchronous
  login
- transport input all
+line aux 0
+line vty 0 4
+ password 7 105A01161004130508
+ logging synchronous
+ login
+ transport input none
 !
 !
 end
